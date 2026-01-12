@@ -1,0 +1,42 @@
+name: Update ATIS (Météo 10 min)
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      
+      - name: Install dependencies
+        run: pip install requests edge-tts
+      
+      - name: Run ATIS update
+        env:
+          ATIS_REMARQUES: ${{ secrets.ATIS_REMARQUES }}
+          FORCE_NOTAM_REFRESH: "0"
+        run: python script.py
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          # On ajoute tout le contenu modifié
+          git add .
+          # On commit seulement s'il y a des changements
+          git diff --quiet && git diff --staged --quiet || git commit -m "🔄 ATIS update auto"
+          # Sécurité : on récupère les éventuelles modifs distantes avant de pousser
+          git pull --rebase origin main
+          git push origin main
