@@ -14,6 +14,7 @@
     }
   ],
   "start_url": "https://lf8528.github.io/atis/",
+  "scope": "/atis/",
   "display": "standalone",
   "theme_color": "#121212",
   "background_color": "#121212"
