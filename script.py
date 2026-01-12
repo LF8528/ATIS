@@ -227,7 +227,7 @@ async def executer_veille():
         if match_h:
             h1,m1,h2,m2 = match_h.groups()
             notam_audio_en = f"Military zone R 147: active on {notams['R147']['date'].replace('/',' ')} from {int(h1)}{(' '+str(int(m1))) if int(m1)>0 else ''} to {int(h2)}{(' '+str(int(m2))) if int(m2)>0 else ''} UTC."
-    txt_en = f"Luçon les Guifettes observation at {m['heure_metar'].replace(':',' ')} UTC. {m['w_audio_en']}. Temperature {m['t_audio_en']} degrees. Dew point {m['d_audio_en']} degrees. Q N H {m['q_audio_en']} hectopascals. {audio_remarques_en} {notam_audio_en}"
+    txt_en = f"Lusson  lay  Guifettes  observation at {m['heure_metar'].replace(':',' ')} UTC. {m['w_audio_en']}. Temperature {m['t_audio_en']} degrees. Dew point {m['d_audio_en']} degrees. Q N H {m['q_audio_en']} hectopascals. {audio_remarques_en} {notam_audio_en}"
     await generer_audio(txt_fr, txt_en)
     ts = int(time.time())
     prochaine = (maintenant.replace(minute=0,second=0) + timedelta(hours=1)).strftime('%H:%M')
